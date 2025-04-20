@@ -1,0 +1,2635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify+ - Enhanced Music Experience</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Circular+Spotify+Text:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_Green.png">
+    <style>
+        :root {
+            --spotify-green: #1DB954;
+            --spotify-black: #191414;
+            --spotify-white: #FFFFFF;
+            --spotify-gray: #B3B3B3;
+            --spotify-dark-gray: #282828;
+            --spotify-light-gray: #535353;
+            --spotify-hover-gray: #2A2A2A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Circular Spotify Text', sans-serif;
+        }
+
+        body {
+            background-color: var(--spotify-black);
+            color: var(--spotify-white);
+            line-height: 1.5;
+        }
+
+        .spotify-logo {
+            height: 40px;
+            margin-right: 1rem;
+        }
+
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            height: 80px;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--spotify-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .premium-badge {
+            background: linear-gradient(45deg, #1DB954, #1ed760);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            color: var(--spotify-white);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--spotify-green);
+        }
+
+        .main-content {
+            margin-top: 80px;
+            padding: 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 6rem 0;
+            background: linear-gradient(135deg, #1DB954 0%, #191414 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></svg>') repeat;
+            opacity: 0.1;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--spotify-gray);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            padding: 4rem 0;
+        }
+
+        .feature-card {
+            background: var(--spotify-dark-gray);
+            padding: 2.5rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--spotify-green);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: var(--spotify-hover-gray);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card i {
+            font-size: 2.5rem;
+            color: var(--spotify-green);
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .mood-selector {
+            display: flex;
+            gap: 1.25rem;
+            margin: 3rem 0;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        .mood-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            background: var(--spotify-green);
+            color: var(--spotify-white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mood-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+
+        .mood-btn:hover::before {
+            transform: translateX(100%);
+        }
+
+        .mood-btn i {
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .mood-btn:hover i {
+            transform: scale(1.2);
+        }
+
+        .mood-btn:hover {
+            transform: scale(1.05);
+            background: #1ed760;
+            box-shadow: 0 0 20px rgba(29, 185, 84, 0.3);
+        }
+
+        .social-rooms {
+            margin: 5rem 0;
+            text-align: center;
+        }
+
+        .room-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .room-card {
+            background: var(--spotify-dark-gray);
+            padding: 1.5rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .room-card:hover {
+            background: var(--spotify-hover-gray);
+            transform: translateY(-3px);
+        }
+
+        .room-card h4 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .ai-recommendations {
+            background: rgba(29, 185, 84, 0.1);
+            padding: 3rem;
+            border-radius: 12px;
+            margin: 3rem 0;
+        }
+
+        .recommendation-list {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            padding: 1.5rem 0;
+            scrollbar-width: thin;
+            scrollbar-color: var(--spotify-green) var(--spotify-dark-gray);
+        }
+
+        .recommendation-list::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .recommendation-list::-webkit-scrollbar-track {
+            background: var(--spotify-dark-gray);
+            border-radius: 4px;
+        }
+
+        .recommendation-list::-webkit-scrollbar-thumb {
+            background: var(--spotify-green);
+            border-radius: 4px;
+        }
+
+        .song-card {
+            min-width: 180px;
+            max-width: 200px;
+            background: var(--spotify-dark-gray);
+            padding: 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .song-card:hover {
+            background: var(--spotify-hover-gray);
+            transform: translateY(-3px);
+        }
+
+        .album-art {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .album-art img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .song-card:hover .album-art img {
+            transform: scale(1.05);
+        }
+
+        .song-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .song-info h4 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--spotify-white);
+        }
+
+        .song-info p {
+            font-size: 0.8rem;
+            color: var(--spotify-gray);
+        }
+
+        .song-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.25rem;
+        }
+
+        .play-button {
+            background: var(--spotify-green);
+            color: var(--spotify-black);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        .song-card:hover .play-button {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .play-button:hover {
+            transform: scale(1.1);
+        }
+
+        .cta-button {
+            background: var(--spotify-green);
+            color: var(--spotify-white);
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 1rem 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            background: #1ed760;
+        }
+
+        /* New Features Styling */
+        .audio-visualizer {
+            width: calc(100% - 6rem);
+            height: 400px;
+            background: var(--spotify-dark-gray);
+            border-radius: 16px;
+            margin: 4rem auto;
+            position: relative;
+            overflow: hidden;
+            padding: 3rem;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .audio-visualizer h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #fff, #1DB954, #FF6B6B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(29, 185, 84, 0.3);
+            padding: 0 2rem;
+        }
+
+        .visualizer-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: calc(100% - 4rem);
+            height: calc(100% - 8rem);
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            transform-style: preserve-3d;
+            animation: rotateVisualizer 20s infinite linear;
+            padding: 2rem;
+        }
+
+        @keyframes rotateVisualizer {
+            0% { transform: translate(-50%, -50%) rotateY(0deg); }
+            100% { transform: translate(-50%, -50%) rotateY(360deg); }
+        }
+
+        .visualizer-bar {
+            width: 6px;
+            background: linear-gradient(to top, #1DB954 0%, #FF6B6B 100%);
+            border-radius: 3px;
+            transform-origin: bottom;
+            animation: barAnimation 1.5s infinite ease-in-out;
+            box-shadow: 0 0 15px rgba(29, 185, 84, 0.4);
+            margin: 0 2px;
+        }
+
+        @keyframes barAnimation {
+            0%, 100% { transform: scaleY(0.2); }
+            50% { transform: scaleY(1); }
+        }
+
+        .visualizer-particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: linear-gradient(45deg, #1DB954, #FF6B6B);
+            border-radius: 50%;
+            opacity: 0;
+            animation: particleAnimation 2s infinite;
+            box-shadow: 0 0 10px rgba(29, 185, 84, 0.5);
+        }
+
+        @keyframes particleAnimation {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100px) scale(0); opacity: 0; }
+        }
+
+        .mood-intensity {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin: 3rem 2rem;
+            padding: 0 2rem;
+        }
+
+        .intensity-slider {
+            flex: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            position: relative;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            margin: 0 1rem;
+        }
+
+        .intensity-level {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background: linear-gradient(90deg, #1DB954, #FF6B6B);
+            border-radius: 3px;
+            width: 50%;
+            box-shadow: 0 0 15px rgba(29, 185, 84, 0.3);
+        }
+
+        .intensity-label {
+            font-size: 1.1rem;
+            color: var(--spotify-white);
+            min-width: 150px;
+            text-align: right;
+            margin-right: 1rem;
+        }
+
+        .playlist-options {
+            display: flex;
+            gap: 2rem;
+            margin: 3rem 2rem;
+            padding: 0 2rem;
+            justify-content: center;
+        }
+
+        .option-button {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--spotify-white);
+            padding: 1.25rem 2.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            margin: 0 1rem;
+        }
+
+        .option-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .option-button.active {
+            background: linear-gradient(45deg, #1DB954, #FF6B6B);
+            box-shadow: 0 0 25px rgba(29, 185, 84, 0.4);
+        }
+
+        .option-button i {
+            font-size: 1.2rem;
+        }
+
+        .collaborative-playlist {
+            background: var(--spotify-dark-gray);
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+
+        .playlist-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .playlist-tracks {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .track-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            background: var(--spotify-hover-gray);
+            transition: all 0.3s ease;
+        }
+
+        .track-item:hover {
+            background: var(--spotify-light-gray);
+        }
+
+        .mood-analysis {
+            background: var(--spotify-dark-gray);
+            padding: 3rem;
+            border-radius: 12px;
+            margin: 3rem 2rem;
+        }
+
+        .mood-analysis-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .mood-analysis-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .mood-analysis-description {
+            color: var(--spotify-gray);
+            margin-bottom: 1.5rem;
+            max-width: 600px;
+        }
+
+        .mood-analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .mood-metrics {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+
+        .mood-metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .mood-metric-label {
+            font-size: 0.9rem;
+            color: var(--spotify-gray);
+        }
+
+        .mood-metric-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--spotify-white);
+        }
+
+        .mood-chart-container {
+            position: relative;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .mood-chart {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .mood-indicator {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--spotify-green);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px rgba(29, 185, 84, 0.5);
+        }
+
+        .mood-timeline {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--spotify-light-gray);
+        }
+
+        .mood-timeline-marker {
+            position: absolute;
+            bottom: -10px;
+            width: 2px;
+            height: 10px;
+            background: var(--spotify-light-gray);
+        }
+
+        .mood-timeline-label {
+            position: absolute;
+            bottom: -30px;
+            font-size: 0.8rem;
+            color: var(--spotify-gray);
+            transform: translateX(-50%);
+        }
+
+        .mood-insights {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+
+        .mood-insight {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: rgba(29, 185, 84, 0.1);
+            border-radius: 8px;
+        }
+
+        .mood-insight-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--spotify-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .mood-insight-description {
+            font-size: 0.9rem;
+            color: var(--spotify-gray);
+        }
+
+        .mood-recommendations {
+            margin-top: 2rem;
+        }
+
+        .mood-recommendation {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .mood-recommendation:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .mood-recommendation-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--spotify-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mood-recommendation-content {
+            flex: 1;
+        }
+
+        .mood-recommendation-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .mood-recommendation-description {
+            font-size: 0.9rem;
+            color: var(--spotify-gray);
+        }
+
+        .ai-playlist-generator {
+            background: var(--spotify-dark-gray);
+            padding: 3rem;
+            border-radius: 12px;
+            margin: 3rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .ai-option-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-option-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .ai-option-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--spotify-green);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .ai-option-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .ai-option-icon {
+            font-size: 2rem;
+            color: var(--spotify-green);
+            margin-bottom: 1rem;
+        }
+
+        .ai-option-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .ai-option-description {
+            color: var(--spotify-gray);
+            font-size: 0.9rem;
+        }
+
+        .mood-analysis-chart {
+            width: 100%;
+            height: 200px;
+            position: relative;
+            margin: 2rem 0;
+        }
+
+        .mood-wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, var(--spotify-green) 0%, transparent 100%);
+            clip-path: polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%);
+            animation: waveAnimation 2s ease-in-out infinite;
+        }
+
+        @keyframes waveAnimation {
+            0%, 100% { clip-path: polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%); }
+            50% { clip-path: polygon(0% 100%, 100% 100%, 100% 20%, 0% 40%); }
+        }
+
+        .ai-processing {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .ai-processing.visible {
+            opacity: 1;
+        }
+
+        .processing-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--spotify-green);
+            border-radius: 50%;
+            animation: processingAnimation 1.5s infinite;
+        }
+
+        .processing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .processing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes processingAnimation {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.5; }
+        }
+
+        .mood-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .mood-tag {
+            background: rgba(29, 185, 84, 0.2);
+            color: var(--spotify-green);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            animation: tagPulse 2s infinite;
+        }
+
+        @keyframes tagPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .footer {
+            background: var(--spotify-dark-gray);
+            padding: 4rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-section h3 {
+            color: var(--spotify-white);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: var(--spotify-gray);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--spotify-white);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            color: var(--spotify-white);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--spotify-green);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--spotify-light-gray);
+            color: var(--spotify-gray);
+        }
+
+        .now-playing-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--spotify-dark-gray);
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid var(--spotify-light-gray);
+        }
+
+        .now-playing-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            min-width: 200px;
+        }
+
+        .now-playing-art {
+            width: 56px;
+            height: 56px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .now-playing-art img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .now-playing-details h4 {
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .now-playing-details p {
+            font-size: 0.8rem;
+            color: var(--spotify-gray);
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .control-button {
+            background: none;
+            border: none;
+            color: var(--spotify-white);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .control-button:hover {
+            color: var(--spotify-green);
+        }
+
+        .play-pause {
+            background: var(--spotify-white);
+            color: var(--spotify-black);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .play-pause:hover {
+            transform: scale(1.1);
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 4px;
+            background: var(--spotify-light-gray);
+            border-radius: 2px;
+            margin: 0 1rem;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .progress {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background: var(--spotify-green);
+            border-radius: 2px;
+            width: 30%;
+        }
+
+        .time {
+            font-size: 0.8rem;
+            color: var(--spotify-gray);
+            min-width: 100px;
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-width: 150px;
+        }
+
+        .volume-bar {
+            flex: 1;
+            height: 4px;
+            background: var(--spotify-light-gray);
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .volume-level {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background: var(--spotify-green);
+            border-radius: 2px;
+            width: 70%;
+        }
+
+        .collaborative-listening {
+            background: var(--spotify-dark-gray);
+            padding: 3rem;
+            border-radius: 12px;
+            margin: 3rem 2rem;
+        }
+
+        .community-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .community-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .community-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .community-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .community-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--spotify-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .community-info h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .community-info p {
+            font-size: 0.9rem;
+            color: var(--spotify-gray);
+        }
+
+        .community-stats {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            color: var(--spotify-gray);
+        }
+
+        .community-stats span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .community-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .community-tag {
+            background: rgba(29, 185, 84, 0.1);
+            color: var(--spotify-green);
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .community-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .community-button {
+            flex: 1;
+            padding: 0.5rem;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .join-button {
+            background: var(--spotify-green);
+            color: var(--spotify-black);
+        }
+
+        .create-community {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--spotify-white);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .create-community h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .create-community p {
+            color: var(--spotify-gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .create-button {
+            background: var(--spotify-green);
+            color: var(--spotify-black);
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .create-button:hover {
+            transform: scale(1.05);
+        }
+
+        .virtual-dj {
+            background: linear-gradient(135deg, #1DB954 0%, #191414 100%);
+            padding: 4rem 3rem;
+            border-radius: 16px;
+            margin: 4rem 3rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(29, 185, 84, 0.2);
+        }
+
+        .virtual-dj::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></svg>') repeat;
+            opacity: 0.1;
+        }
+
+        .dj-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            padding: 0 1rem;
+        }
+
+        .dj-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #fff, #1DB954, #FF6B6B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(29, 185, 84, 0.3);
+        }
+
+        .dj-controls {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .dj-button {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .dj-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .dj-button.active {
+            background: linear-gradient(45deg, #1DB954, #FF6B6B);
+            box-shadow: 0 0 25px rgba(29, 185, 84, 0.4);
+        }
+
+        .dj-deck {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+            padding: 0 1rem;
+        }
+
+        .deck {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2.5rem;
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .deck:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(29, 185, 84, 0.2);
+        }
+
+        .deck::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #1DB954, #FF6B6B);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .deck:hover::before {
+            transform: scaleX(1);
+        }
+
+        .deck-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .deck-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #1DB954, #FF6B6B);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 20px rgba(29, 185, 84, 0.3);
+        }
+
+        .deck-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #fff, #FF6B6B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .deck-controls {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .control {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .control:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .control i {
+            font-size: 1.8rem;
+            margin-bottom: 0.75rem;
+            background: linear-gradient(45deg, #1DB954, #FF6B6B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .waveform {
+            width: 100%;
+            height: 120px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, #1DB954 0%, #FF6B6B 100%);
+            clip-path: polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%);
+            animation: waveAnimation 2s ease-in-out infinite;
+        }
+
+        .effects-panel {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2rem;
+            border-radius: 16px;
+            margin-top: 3rem;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .effects-panel h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #fff, #FF6B6B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .effects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .effect {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .effect:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .effect.active {
+            background: linear-gradient(45deg, #1DB954, #FF6B6B);
+            box-shadow: 0 0 25px rgba(29, 185, 84, 0.4);
+        }
+
+        .effect i {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: white;
+        }
+
+        .effect-label {
+            font-size: 1rem;
+            color: white;
+        }
+
+        .crossfader {
+            width: 90%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin: 3rem auto;
+            position: relative;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .crossfader-handle {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(45deg, #1DB954, #FF6B6B);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            cursor: grab;
+            box-shadow: 0 0 20px rgba(29, 185, 84, 0.4);
+        }
+
+        .crossfader-handle:active {
+            cursor: grabbing;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .trending-section {
+            background: var(--spotify-dark-gray);
+            padding: 4rem 3rem;
+            border-radius: 16px;
+            margin: 4rem auto;
+            width: calc(100% - 6rem);
+        }
+
+        .trending-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            padding: 0 2rem;
+        }
+
+        .trending-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #fff, #1DB954, #FF6B6B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(29, 185, 84, 0.3);
+        }
+
+        .trending-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .trending-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .trending-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .trending-image {
+            width: 100%;
+            aspect-ratio: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .trending-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .trending-card:hover .trending-image img {
+            transform: scale(1.05);
+        }
+
+        .trending-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            padding: 1.5rem;
+        }
+
+        .trending-info {
+            color: white;
+        }
+
+        .trending-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .trending-info p {
+            font-size: 0.9rem;
+            color: var(--spotify-gray);
+        }
+
+        .trending-play {
+            position: absolute;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            width: 40px;
+            height: 40px;
+            background: var(--spotify-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .trending-card:hover .trending-play {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .trending-play:hover {
+            transform: scale(1.1);
+            background: #1ed760;
+        }
+
+        .trending-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: white;
+            backdrop-filter: blur(5px);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <img src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_Green.png" alt="Spotify Logo" class="spotify-logo">
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#features">Features</a>
+                <a href="#social">Social</a>
+                <a href="#ai">AI Features</a>
+                <a href="#visualizer">Visualizer</a>
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="premium-badge">
+                <i class="fas fa-crown"></i>
+                Premium
+            </div>
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <span>User</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section class="hero" id="home">
+            <h1>Welcome to Spotify+</h1>
+            <p>Experience music like never before with our enhanced features</p>
+            <button class="cta-button">
+                <i class="fas fa-play"></i>
+                Get Started
+            </button>
+        </section>
+
+        <section class="features" id="features">
+            <div class="feature-card">
+                <i class="fas fa-brain"></i>
+                <h3>AI-Powered Recommendations</h3>
+                <p>Get personalized song suggestions based on your listening habits and mood</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-users"></i>
+                <h3>Social Listening Rooms</h3>
+                <p>Create and join virtual listening rooms with friends in real-time</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-moon"></i>
+                <h3>Mood-Based Playlists</h3>
+                <p>Generate playlists that match your current mood and activities</p>
+            </div>
+        </section>
+
+        <section class="mood-selector">
+            <button class="mood-btn" data-mood="happy">
+                <i class="fas fa-smile"></i>
+                Happy
+            </button>
+            <button class="mood-btn" data-mood="sad">
+                <i class="fas fa-sad-tear"></i>
+                Sad
+            </button>
+            <button class="mood-btn" data-mood="energetic">
+                <i class="fas fa-bolt"></i>
+                Energetic
+            </button>
+            <button class="mood-btn" data-mood="relaxed">
+                <i class="fas fa-couch"></i>
+                Relaxed
+            </button>
+            <button class="mood-btn" data-mood="focused">
+                <i class="fas fa-brain"></i>
+                Focused
+            </button>
+        </section>
+
+        <section class="social-rooms" id="social">
+            <h2>Join Social Listening Rooms</h2>
+            <div class="room-grid">
+                <div class="room-card">
+                    <h4>Chill Vibes</h4>
+                    <p>12 listeners</p>
+                </div>
+                <div class="room-card">
+                    <h4>Workout Mix</h4>
+                    <p>8 listeners</p>
+                </div>
+                <div class="room-card">
+                    <h4>Study Session</h4>
+                    <p>15 listeners</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="ai-recommendations" id="ai">
+            <h2>AI-Powered Recommendations</h2>
+            <div class="recommendation-list">
+                <div class="song-card">
+                    <div class="album-art">
+                        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Album Art">
+                    </div>
+                    <div class="song-info">
+                        <h4>Summer Vibes</h4>
+                        <p>Chill Mix</p>
+                    </div>
+                    <div class="song-actions">
+                        <button class="play-button">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <i class="fas fa-ellipsis-h" style="color: var(--spotify-gray);"></i>
+                    </div>
+                </div>
+                <div class="song-card">
+                    <div class="album-art">
+                        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Album Art">
+                    </div>
+                    <div class="song-info">
+                        <h4>Workout Mix</h4>
+                        <p>Energy Boost</p>
+                    </div>
+                    <div class="song-actions">
+                        <button class="play-button">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <i class="fas fa-ellipsis-h" style="color: var(--spotify-gray);"></i>
+                    </div>
+                </div>
+                <div class="song-card">
+                    <div class="album-art">
+                        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Album Art">
+                    </div>
+                    <div class="song-info">
+                        <h4>Focus Flow</h4>
+                        <p>Study Session</p>
+                    </div>
+                    <div class="song-actions">
+                        <button class="play-button">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <i class="fas fa-ellipsis-h" style="color: var(--spotify-gray);"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- New Features -->
+        <section class="audio-visualizer" id="visualizer">
+            <h2>3D Audio Visualizer</h2>
+            <div class="visualizer-container">
+                <!-- Bars will be added dynamically -->
+            </div>
+        </section>
+
+        <section class="collaborative-playlist">
+            <div class="playlist-header">
+                <h2>Collaborative Playlist Editor</h2>
+                <button class="cta-button">
+                    <i class="fas fa-plus"></i>
+                    Add Track
+                </button>
+            </div>
+            <div class="playlist-tracks">
+                <div class="track-item">
+                    <i class="fas fa-music"></i>
+                    <div>
+                        <h4>Track Name</h4>
+                        <p>Artist Name</p>
+                    </div>
+                    <div class="track-actions">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mood-analysis">
+            <div class="mood-analysis-header">
+                <h2 class="mood-analysis-title">Advanced Mood Analysis</h2>
+                <button class="cta-button">
+                    <i class="fas fa-sync-alt"></i>
+                    Refresh Analysis
+                </button>
+            </div>
+            <p class="mood-analysis-description">
+                Our AI analyzes your listening patterns, heart rate, and activity level to provide detailed insights about your musical preferences and emotional state.
+            </p>
+            
+            <div class="mood-analysis-grid">
+                <div class="mood-metrics">
+                    <h3>Current Mood Metrics</h3>
+                    <div class="mood-metric">
+                        <span class="mood-metric-label">Energy Level</span>
+                        <span class="mood-metric-value">High (85%)</span>
+                    </div>
+                    <div class="mood-metric">
+                        <span class="mood-metric-label">Emotional Intensity</span>
+                        <span class="mood-metric-value">Medium (65%)</span>
+                    </div>
+                    <div class="mood-metric">
+                        <span class="mood-metric-label">Focus Level</span>
+                        <span class="mood-metric-value">Low (30%)</span>
+                    </div>
+                    <div class="mood-metric">
+                        <span class="mood-metric-label">Mood Stability</span>
+                        <span class="mood-metric-value">Stable (75%)</span>
+                    </div>
+                </div>
+
+                <div class="mood-chart-container">
+                    <h3>Mood Timeline</h3>
+                    <div class="mood-chart">
+                        <div class="mood-timeline"></div>
+                        <div class="mood-timeline-marker" style="left: 25%;"></div>
+                        <div class="mood-timeline-marker" style="left: 50%;"></div>
+                        <div class="mood-timeline-marker" style="left: 75%;"></div>
+                        <div class="mood-timeline-label" style="left: 25%;">Morning</div>
+                        <div class="mood-timeline-label" style="left: 50%;">Afternoon</div>
+                        <div class="mood-timeline-label" style="left: 75%;">Evening</div>
+                        <div class="mood-indicator" style="left: 30%; top: 40%;"></div>
+                        <div class="mood-indicator" style="left: 50%; top: 60%;"></div>
+                        <div class="mood-indicator" style="left: 70%; top: 30%;"></div>
+                    </div>
+                </div>
+
+                <div class="mood-insights">
+                    <h3>Mood Insights</h3>
+                    <div class="mood-insight">
+                        <div class="mood-insight-title">Energy Pattern</div>
+                        <div class="mood-insight-description">
+                            Your energy levels peak during workout sessions and gradually decrease throughout the day.
+                        </div>
+                    </div>
+                    <div class="mood-insight">
+                        <div class="mood-insight-title">Emotional Response</div>
+                        <div class="mood-insight-description">
+                            You tend to listen to more upbeat music when working out and relaxing music during study sessions.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mood-recommendations">
+                <h3>Personalized Recommendations</h3>
+                <div class="mood-recommendation">
+                    <div class="mood-recommendation-icon">
+                        <i class="fas fa-running"></i>
+                    </div>
+                    <div class="mood-recommendation-content">
+                        <div class="mood-recommendation-title">Workout Playlist</div>
+                        <div class="mood-recommendation-description">
+                            Based on your high energy levels during workouts, we recommend these high-BPM tracks.
+                        </div>
+                    </div>
+                </div>
+                <div class="mood-recommendation">
+                    <div class="mood-recommendation-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="mood-recommendation-content">
+                        <div class="mood-recommendation-title">Study Focus</div>
+                        <div class="mood-recommendation-description">
+                            Ambient and instrumental tracks to help maintain your focus during study sessions.
+                        </div>
+                    </div>
+                </div>
+                <div class="mood-recommendation">
+                    <div class="mood-recommendation-icon">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                    <div class="mood-recommendation-content">
+                        <div class="mood-recommendation-title">Evening Wind Down</div>
+                        <div class="mood-recommendation-description">
+                            Calming tracks to help you relax and prepare for sleep.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="collaborative-listening">
+            <h2>Join Music Communities</h2>
+            <p>Connect with people who share your music taste</p>
+            <div class="community-grid">
+                <div class="community-card">
+                    <div class="community-header">
+                        <div class="community-avatar">
+                            <i class="fas fa-headphones"></i>
+                        </div>
+                        <div class="community-info">
+                            <h3>Indie Vibes</h3>
+                            <p>Discover new indie artists</p>
+                        </div>
+                    </div>
+                    <div class="community-stats">
+                        <span><i class="fas fa-users"></i> 1.2k members</span>
+                        <span><i class="fas fa-music"></i> 45 playlists</span>
+                    </div>
+                    <div class="community-tags">
+                        <span class="community-tag">Indie</span>
+                        <span class="community-tag">Alternative</span>
+                        <span class="community-tag">New Releases</span>
+                    </div>
+                    <div class="community-actions">
+                        <button class="community-button join-button">
+                            <i class="fas fa-plus"></i>
+                            Join
+                        </button>
+                        <button class="community-button">
+                            <i class="fas fa-comment"></i>
+                            Chat
+                        </button>
+                    </div>
+                </div>
+
+                <div class="community-card">
+                    <div class="community-header">
+                        <div class="community-avatar">
+                            <i class="fas fa-guitar"></i>
+                        </div>
+                        <div class="community-info">
+                            <h3>Rock Legends</h3>
+                            <p>Classic rock enthusiasts</p>
+                        </div>
+                    </div>
+                    <div class="community-stats">
+                        <span><i class="fas fa-users"></i> 2.5k members</span>
+                        <span><i class="fas fa-music"></i> 78 playlists</span>
+                    </div>
+                    <div class="community-tags">
+                        <span class="community-tag">Rock</span>
+                        <span class="community-tag">Classic</span>
+                        <span class="community-tag">Live</span>
+                    </div>
+                    <div class="community-actions">
+                        <button class="community-button join-button">
+                            <i class="fas fa-plus"></i>
+                            Join
+                        </button>
+                        <button class="community-button">
+                            <i class="fas fa-comment"></i>
+                            Chat
+                        </button>
+                    </div>
+                </div>
+
+                <div class="community-card">
+                    <div class="community-header">
+                        <div class="community-avatar">
+                            <i class="fas fa-drum"></i>
+                        </div>
+                        <div class="community-info">
+                            <h3>Hip Hop Heads</h3>
+                            <p>Latest in hip hop</p>
+                        </div>
+                    </div>
+                    <div class="community-stats">
+                        <span><i class="fas fa-users"></i> 3.1k members</span>
+                        <span><i class="fas fa-music"></i> 92 playlists</span>
+                    </div>
+                    <div class="community-tags">
+                        <span class="community-tag">Hip Hop</span>
+                        <span class="community-tag">Rap</span>
+                        <span class="community-tag">Urban</span>
+                    </div>
+                    <div class="community-actions">
+                        <button class="community-button join-button">
+                            <i class="fas fa-plus"></i>
+                            Join
+                        </button>
+                        <button class="community-button">
+                            <i class="fas fa-comment"></i>
+                            Chat
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="create-community">
+                <h3>Create Your Own Community</h3>
+                <p>Start a community around your favorite music genre or artist</p>
+                <button class="create-button">
+                    <i class="fas fa-plus"></i>
+                    Create Community
+                </button>
+            </div>
+        </section>
+
+        <section class="virtual-dj">
+            <div class="dj-header">
+                <h2 class="dj-title">Virtual DJ Mode</h2>
+                <div class="dj-controls">
+                    <button class="dj-button">
+                        <i class="fas fa-sync-alt"></i>
+                        Sync
+                    </button>
+                    <button class="dj-button active">
+                        <i class="fas fa-play"></i>
+                        Start Mixing
+                    </button>
+                </div>
+            </div>
+
+            <div class="dj-deck">
+                <div class="deck">
+                    <div class="deck-header">
+                        <div class="deck-icon">
+                            <i class="fas fa-compact-disc"></i>
+                        </div>
+                        <h3 class="deck-title">Deck A</h3>
+                    </div>
+                    <div class="waveform">
+                        <div class="wave"></div>
+                    </div>
+                    <div class="deck-controls">
+                        <div class="control">
+                            <i class="fas fa-backward"></i>
+                            <div class="control-label">Cue</div>
+                        </div>
+                        <div class="control">
+                            <i class="fas fa-play"></i>
+                            <div class="control-label">Play</div>
+                        </div>
+                        <div class="control">
+                            <i class="fas fa-forward"></i>
+                            <div class="control-label">Loop</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="deck">
+                    <div class="deck-header">
+                        <div class="deck-icon">
+                            <i class="fas fa-compact-disc"></i>
+                        </div>
+                        <h3 class="deck-title">Deck B</h3>
+                    </div>
+                    <div class="waveform">
+                        <div class="wave"></div>
+                    </div>
+                    <div class="deck-controls">
+                        <div class="control">
+                            <i class="fas fa-backward"></i>
+                            <div class="control-label">Cue</div>
+                        </div>
+                        <div class="control">
+                            <i class="fas fa-play"></i>
+                            <div class="control-label">Play</div>
+                        </div>
+                        <div class="control">
+                            <i class="fas fa-forward"></i>
+                            <div class="control-label">Loop</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="crossfader">
+                <div class="crossfader-handle"></div>
+            </div>
+
+            <div class="effects-panel">
+                <h3>Effects</h3>
+                <div class="effects-grid">
+                    <div class="effect active">
+                        <i class="fas fa-wave-square"></i>
+                        <div class="effect-label">Flanger</div>
+                    </div>
+                    <div class="effect">
+                        <i class="fas fa-volume-up"></i>
+                        <div class="effect-label">Echo</div>
+                    </div>
+                    <div class="effect">
+                        <i class="fas fa-sliders-h"></i>
+                        <div class="effect-label">Filter</div>
+                    </div>
+                    <div class="effect">
+                        <i class="fas fa-random"></i>
+                        <div class="effect-label">Scratch</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="trending-section">
+            <div class="trending-header">
+                <h2 class="trending-title">Trending Now</h2>
+                <button class="cta-button">
+                    <i class="fas fa-arrow-right"></i>
+                    View All
+                </button>
+            </div>
+            <div class="trending-grid">
+                <div class="trending-card">
+                    <div class="trending-image">
+                        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Artist">
+                        <div class="trending-badge">#1 Trending</div>
+                    </div>
+                    <div class="trending-overlay">
+                        <div class="trending-info">
+                            <h3>Blinding Lights</h3>
+                            <p>The Weeknd</p>
+                        </div>
+                        <button class="trending-play">
+                            <i class="fas fa-play"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="trending-card">
+                    <div class="trending-image">
+                        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Artist">
+                        <div class="trending-badge">#2 Trending</div>
+                    </div>
+                    <div class="trending-overlay">
+                        <div class="trending-info">
+                            <h3>Stay</h3>
+                            <p>The Kid LAROI, Justin Bieber</p>
+                        </div>
+                        <button class="trending-play">
+                            <i class="fas fa-play"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="trending-card">
+                    <div class="trending-image">
+                        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Artist">
+                        <div class="trending-badge">#3 Trending</div>
+                    </div>
+                    <div class="trending-overlay">
+                        <div class="trending-info">
+                            <h3>good 4 u</h3>
+                            <p>Olivia Rodrigo</p>
+                        </div>
+                        <button class="trending-play">
+                            <i class="fas fa-play"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="trending-card">
+                    <div class="trending-image">
+                        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Artist">
+                        <div class="trending-badge">#4 Trending</div>
+                    </div>
+                    <div class="trending-overlay">
+                        <div class="trending-info">
+                            <h3>Levitating</h3>
+                            <p>Dua Lipa ft. DaBaby</p>
+                        </div>
+                        <button class="trending-play">
+                            <i class="fas fa-play"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="trending-card">
+                    <div class="trending-image">
+                        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Artist">
+                        <div class="trending-badge">#5 Trending</div>
+                    </div>
+                    <div class="trending-overlay">
+                        <div class="trending-info">
+                            <h3>Montero</h3>
+                            <p>Lil Nas X</p>
+                        </div>
+                        <button class="trending-play">
+                            <i class="fas fa-play"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="trending-card">
+                    <div class="trending-image">
+                        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Artist">
+                        <div class="trending-badge">#6 Trending</div>
+                    </div>
+                    <div class="trending-overlay">
+                        <div class="trending-info">
+                            <h3>Peaches</h3>
+                            <p>Justin Bieber ft. Daniel Caesar</p>
+                        </div>
+                        <button class="trending-play">
+                            <i class="fas fa-play"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Jobs</a></li>
+                    <li><a href="#">For the Record</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Communities</h3>
+                <ul class="footer-links">
+                    <li><a href="#">For Artists</a></li>
+                    <li><a href="#">Developers</a></li>
+                    <li><a href="#">Advertising</a></li>
+                    <li><a href="#">Investors</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Useful Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">Web Player</a></li>
+                    <li><a href="#">Free Mobile App</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2024 Spotify AB</p>
+        </div>
+    </footer>
+
+    <div class="now-playing-bar">
+        <div class="now-playing-info">
+            <div class="now-playing-art">
+                <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Now Playing">
+            </div>
+            <div class="now-playing-details">
+                <h4>Current Song</h4>
+                <p>Artist Name</p>
+            </div>
+        </div>
+        <div class="player-controls">
+            <button class="control-button"><i class="fas fa-random"></i></button>
+            <button class="control-button"><i class="fas fa-step-backward"></i></button>
+            <button class="control-button play-pause"><i class="fas fa-play"></i></button>
+            <button class="control-button"><i class="fas fa-step-forward"></i></button>
+            <button class="control-button"><i class="fas fa-redo"></i></button>
+        </div>
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+        <div class="time">0:30 / 3:45</div>
+        <div class="volume-control">
+            <i class="fas fa-volume-up"></i>
+            <div class="volume-bar">
+                <div class="volume-level"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced interactivity
+        document.querySelectorAll('.mood-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const mood = button.dataset.mood;
+                const processing = document.querySelector('.ai-processing');
+                const playlistPreview = document.querySelector('.playlist-preview');
+                
+                // Show processing animation
+                processing.classList.add('visible');
+                playlistPreview.classList.remove('visible');
+                
+                // Simulate AI processing
+                setTimeout(() => {
+                    processing.classList.remove('visible');
+                    playlistPreview.classList.add('visible');
+                    
+                    // Update mood tags based on selection
+                    const moodTags = document.querySelectorAll('.mood-tag');
+                    const moodTagTexts = {
+                        happy: ['Upbeat', 'Energetic', 'Positive', 'Motivational'],
+                        sad: ['Melancholic', 'Emotional', 'Reflective', 'Calm'],
+                        energetic: ['High Energy', 'Dynamic', 'Powerful', 'Intense'],
+                        relaxed: ['Chill', 'Calm', 'Peaceful', 'Smooth'],
+                        focused: ['Concentrated', 'Productive', 'Mindful', 'Clear']
+                    };
+                    
+                    moodTags.forEach((tag, index) => {
+                        tag.textContent = moodTagTexts[mood][index];
+                    });
+                }, 2000);
+            });
+        });
+
+        // Audio visualizer animation
+        const visualizerContainer = document.querySelector('.visualizer-container');
+        const numBars = 50;
+
+        // Create visualizer bars
+        for (let i = 0; i < numBars; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'visualizer-bar';
+            bar.style.height = `${Math.random() * 100}%`;
+            bar.style.animationDelay = `${i * 0.02}s`;
+            visualizerContainer.appendChild(bar);
+        }
+
+        // Create particles
+        setInterval(() => {
+            const particle = document.createElement('div');
+            particle.className = 'visualizer-particle';
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.bottom = '0';
+            particle.style.animationDelay = `${Math.random() * 2}s`;
+            visualizerContainer.appendChild(particle);
+
+            // Remove particle after animation
+            setTimeout(() => {
+                particle.remove();
+            }, 2000);
+        }, 100);
+
+        // Intensity slider functionality
+        const intensitySlider = document.querySelector('.intensity-slider');
+        const intensityLevel = document.querySelector('.intensity-level');
+
+        intensitySlider.addEventListener('click', (e) => {
+            const rect = intensitySlider.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const percentage = x / rect.width;
+            intensityLevel.style.width = `${percentage * 100}%`;
+            
+            // Update visualizer intensity
+            const bars = document.querySelectorAll('.visualizer-bar');
+            bars.forEach(bar => {
+                bar.style.animationDuration = `${2 - percentage}s`;
+            });
+        });
+
+        // Option buttons functionality
+        document.querySelectorAll('.option-button').forEach(button => {
+            button.addEventListener('click', () => {
+                button.classList.toggle('active');
+                if (button.classList.contains('active')) {
+                    button.style.background = 'var(--spotify-green)';
+                } else {
+                    button.style.background = 'rgba(255, 255, 255, 0.1)';
+                }
+            });
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Collaborative playlist functionality
+        const addTrackButton = document.querySelector('.cta-button');
+        addTrackButton.addEventListener('click', () => {
+            const playlistTracks = document.querySelector('.playlist-tracks');
+            const newTrack = document.createElement('div');
+            newTrack.className = 'track-item';
+            newTrack.innerHTML = `
+                <i class="fas fa-music"></i>
+                <div>
+                    <h4>New Track ${Math.floor(Math.random() * 100)}</h4>
+                    <p>New Artist</p>
+                </div>
+                <div class="track-actions">
+                    <i class="fas fa-ellipsis-h"></i>
+                </div>
+            `;
+            playlistTracks.appendChild(newTrack);
+        });
+
+        // Add play button functionality
+        document.querySelectorAll('.play-button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const card = button.closest('.song-card');
+                const songTitle = card.querySelector('h4').textContent;
+                alert(`Now playing: ${songTitle}`);
+            });
+        });
+
+        // Add wave animation
+        const moodWave = document.querySelector('.mood-wave');
+        setInterval(() => {
+            const randomHeight = Math.random() * 100;
+            moodWave.style.clipPath = `polygon(0% 100%, 100% 100%, 100% ${randomHeight}%, 0% ${randomHeight + 20}%)`;
+        }, 2000);
+
+        // Now playing bar functionality
+        const playPauseButton = document.querySelector('.play-pause');
+        const progressBar = document.querySelector('.progress-bar');
+        const progress = document.querySelector('.progress');
+        const volumeBar = document.querySelector('.volume-bar');
+        const volumeLevel = document.querySelector('.volume-level');
+
+        let isPlaying = false;
+
+        playPauseButton.addEventListener('click', () => {
+            isPlaying = !isPlaying;
+            playPauseButton.innerHTML = isPlaying ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>';
+        });
+
+        progressBar.addEventListener('click', (e) => {
+            const rect = progressBar.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const percentage = x / rect.width;
+            progress.style.width = `${percentage * 100}%`;
+        });
+
+        volumeBar.addEventListener('click', (e) => {
+            const rect = volumeBar.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const percentage = x / rect.width;
+            volumeLevel.style.width = `${percentage * 100}%`;
+        });
+
+        // Simulate progress
+        setInterval(() => {
+            if (isPlaying) {
+                const currentWidth = parseFloat(progress.style.width) || 0;
+                if (currentWidth < 100) {
+                    progress.style.width = `${currentWidth + 0.1}%`;
+                }
+            }
+        }, 100);
+
+        // Community functionality
+        document.querySelectorAll('.join-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const card = this.closest('.community-card');
+                const communityName = card.querySelector('h3').textContent;
+                
+                if (this.textContent.includes('Join')) {
+                    this.innerHTML = '<i class="fas fa-check"></i> Joined';
+                    alert(`You've joined ${communityName}!`);
+                } else {
+                    this.innerHTML = '<i class="fas fa-plus"></i> Join';
+                    alert(`You've left ${communityName}.`);
+                }
+            });
+        });
+
+        document.querySelector('.create-button').addEventListener('click', () => {
+            alert('Create your own music community!');
+        });
+
+        // Mood Analysis functionality
+        const moodIndicators = document.querySelectorAll('.mood-indicator');
+        const refreshButton = document.querySelector('.cta-button');
+
+        function updateMoodAnalysis() {
+            // Simulate new mood data
+            moodIndicators.forEach(indicator => {
+                const newTop = Math.random() * 100;
+                const newLeft = Math.random() * 100;
+                indicator.style.top = `${newTop}%`;
+                indicator.style.left = `${newLeft}%`;
+            });
+
+            // Update metrics
+            const metrics = document.querySelectorAll('.mood-metric-value');
+            metrics.forEach(metric => {
+                const newValue = Math.floor(Math.random() * 100);
+                metric.textContent = `${newValue}%`;
+            });
+
+            // Show processing animation
+            refreshButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
+            setTimeout(() => {
+                refreshButton.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh Analysis';
+            }, 2000);
+        }
+
+        refreshButton.addEventListener('click', updateMoodAnalysis);
+
+        // Initial mood analysis
+        updateMoodAnalysis();
+
+        // Virtual DJ functionality
+        const crossfader = document.querySelector('.crossfader');
+        const crossfaderHandle = document.querySelector('.crossfader-handle');
+        const effects = document.querySelectorAll('.effect');
+        const decks = document.querySelectorAll('.deck');
+        const waves = document.querySelectorAll('.wave');
+
+        // Crossfader functionality
+        let isDragging = false;
+
+        crossfader.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            updateCrossfader(e);
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                updateCrossfader(e);
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        function updateCrossfader(e) {
+            const rect = crossfader.getBoundingClientRect();
+            const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+            const percentage = x / rect.width;
+            crossfaderHandle.style.left = `${percentage * 100}%`;
+            
+            // Update deck volumes
+            decks[0].style.opacity = 1 - percentage;
+            decks[1].style.opacity = percentage;
+        }
+
+        // Effect toggling
+        effects.forEach(effect => {
+            effect.addEventListener('click', () => {
+                effect.classList.toggle('active');
+            });
+        });
+
+        // Wave animation
+        setInterval(() => {
+            waves.forEach(wave => {
+                const randomHeight = Math.random() * 100;
+                wave.style.clipPath = `polygon(0% 100%, 100% 100%, 100% ${randomHeight}%, 0% ${randomHeight + 20}%)`;
+            });
+        }, 2000);
+
+        // Deck controls
+        document.querySelectorAll('.control').forEach(control => {
+            control.addEventListener('click', () => {
+                control.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    control.style.transform = 'translateY(-3px)';
+                }, 100);
+            });
+        });
+
+        // Trending section functionality
+        document.querySelectorAll('.trending-play').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const card = button.closest('.trending-card');
+                const songTitle = card.querySelector('h3').textContent;
+                const artist = card.querySelector('p').textContent;
+                alert(`Now playing: ${songTitle} by ${artist}`);
+            });
+        });
+
+        document.querySelectorAll('.trending-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const songTitle = card.querySelector('h3').textContent;
+                const artist = card.querySelector('p').textContent;
+                alert(`Selected: ${songTitle} by ${artist}`);
+            });
+        });
+    </script>
+</body>
+</html> 
